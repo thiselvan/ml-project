@@ -1,0 +1,74 @@
+def calculate_averages(data):
+    average_dict = {}
+    
+    for name, marks in data.items():
+        if len(marks) > 0:
+            avg_value = round(sum(marks) / len(marks), 2)
+        else:
+            avg_value = 0.00
+        
+        average_dict[name] = avg_value
+    
+    return average_dict
+
+
+def assign_grades(avg_data):
+    result_dict = {}
+    
+    # Grading thresholds (defined inside function)
+    grade_A = 90
+    grade_B = 75
+    grade_C = 60
+    
+    for name, avg_score in avg_data.items():
+        if avg_score >= grade_A:
+            letter = 'A'
+        elif avg_score >= grade_B:
+            letter = 'B'
+        elif avg_score >= grade_C:
+            letter = 'C'
+        else:
+            letter = 'F'
+        
+        result_dict[name] = (avg_score, letter)
+    
+    return result_dict
+
+
+def print_report(final_data, pass_mark=70):
+    pass_count = 0
+    
+    print("===== Student Grade Report =====")
+    
+    for name, details in final_data.items():
+        avg_score, letter_grade = details
+        
+        if avg_score >= pass_mark:
+            status = "PASS"
+            pass_count += 1
+        else:
+            status = "FAIL"
+        
+        print(f"{name:<10} | Avg: {avg_score:.2f} | Grade: {letter_grade} | Status: {status}")
+    
+    print("================================")
+    print(f"Total Students : {len(final_data)}")
+    print(f"Passed         : {pass_count}")
+    print(f"Failed         : {len(final_data) - pass_count}")
+    
+    return pass_count
+
+
+# Sample Input
+student_data = {
+    "Arun": [78, 82, 85],
+    "Meera": [92, 88, 95, 91],
+    "Kavin": [60, 58, 65],
+    "Latha": [45, 50],
+    "Nisha": [70, 75, 72],
+    "Rahul": []
+}
+
+avg_output = calculate_averages(student_data)
+grade_output = assign_grades(avg_output)
+passed_total = print_report(grade_output)
